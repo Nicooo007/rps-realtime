@@ -10,11 +10,12 @@ app.use(cors());
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: { origin: "*" }
+  cors: { origin: process.env.FRONTEND_URL || "http://localhost:5173" }
 });
 
 setupSockets(io);
 
-server.listen(3000, () => {
-  console.log("Servidor corriendo en 3000");
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
