@@ -26,6 +26,7 @@ function App() {
   const [myChoice, setMyChoice] = useState<string | null>(null)
   const [countdown, setCountdown] = useState<number | null>(null)
   const [result, setResult] = useState<Result | null>(null)
+  const [opponentAlias, setOpponentAlias] = useState<string>('')
 
   const [rematch, setRematch] = useState<'idle' | 'waiting' | 'incoming'>('idle')
   const [disconnectMsg, setDisconnectMsg] = useState<string | null>(null)
@@ -41,11 +42,14 @@ function App() {
       setScreen(playerIndex === 0 ? 'waiting' : 'game')
     })
 
-    socket.on('game_start', () => {
+    socket.on('game_start', (data: { players: { alias: string }[] }) => {
+      const opp = data.players.find(p => p.alias !== aliasRef.current)
+      setOpponentAlias(opp?.alias ?? '...')
       setMyChoice(null)
       setResult(null)
       setRematch('idle')
       setDisconnectMsg(null)
+      setCountdown(null)
       setScreen('game')
     })
 
@@ -216,11 +220,11 @@ function App() {
           ) : (
             <>
               <h2 className="game-title">Sala: {roomId}</h2>
-<div className="game-players-bar">
-  <span className="player-badge you">👤 {alias}</span>
-  <span className="vs-label">vs</span>
-  <span className="player-badge opp">👤 {result?.opponentAlias ?? '...'}</span>
-</div>
+              <div className="game-players-bar">
+                <span className="player-badge you">👤 {alias}</span>
+                <span className="vs-label">vs</span>
+                <span className="player-badge opp">👤 {opponentAlias || '...'}</span>
+              </div>
               {myChoice ? (
                 <span className="status-badge active">
                   <span className="dot" /> Esperando al oponente...

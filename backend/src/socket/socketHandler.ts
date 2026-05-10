@@ -46,7 +46,7 @@ export function setupSockets(io: Server) {
       room.status = 'playing'
       socket.join(roomId)
       socket.emit('room_joined', { roomId, playerIndex: 1 })
-      io.to(roomId).emit('game_start')
+      io.to(roomId).emit('game_start', { players: room.players.map(p => ({ alias: p.alias })) })
       sync(io)
     })
 
