@@ -14,8 +14,6 @@ let myAlias: string = "";
 let myPlayerIndex: number = -1;
 let hasChosen = false;
 
-type Screen = "landing" | "game" | "result";
-
 function getApp() {
   return document.querySelector("#app") as HTMLDivElement;
 }
