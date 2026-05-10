@@ -216,6 +216,11 @@ function App() {
           ) : (
             <>
               <h2 className="game-title">Sala: {roomId}</h2>
+<div className="game-players-bar">
+  <span className="player-badge you">👤 {alias}</span>
+  <span className="vs-label">vs</span>
+  <span className="player-badge opp">👤 {result?.opponentAlias ?? '...'}</span>
+</div>
               {myChoice ? (
                 <span className="status-badge active">
                   <span className="dot" /> Esperando al oponente...
